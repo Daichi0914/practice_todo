@@ -3,7 +3,9 @@ use axum::Json;
 use axum::response::IntoResponse;
 use serde::{Deserialize, Serialize};
 
-pub async fn create_user(Json(payload): Json<CreateUser>) -> impl IntoResponse {
+pub async fn create_user(
+    Json(payload): Json<CreateUser>
+) -> impl IntoResponse {
     let user = User {
         id: 1234,
         username: payload.username,
