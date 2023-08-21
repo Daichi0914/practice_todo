@@ -3,6 +3,13 @@ pub mod integration_testing {
         pub mod response;
     }
 
-    pub mod create_user;
+    pub mod todo {
+        pub mod create;
+    }
+
+    pub mod user {
+        pub mod create;
+    }
+
     pub mod health_check;
 }
