@@ -11,6 +11,7 @@ async fn ユーザーを作成する() {
     // when
     let response = call_api_with_body("POST", &uri, body).await;
 
+    // then
     assert_eq!(response.status(), StatusCode::CREATED);
     assert_eq!(body_to_string(response).await, r#"{"id":1234,"username":"田中太郎"}"#);
 }
