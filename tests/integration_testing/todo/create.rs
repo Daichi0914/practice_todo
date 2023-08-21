@@ -13,4 +13,5 @@ async fn todoを作成する() {
 
     assert_eq!(response.status(), StatusCode::NO_CONTENT);
     assert_eq!(body_to_string(response).await, "");
+    // TODO: DBの値を取り出してアサートする
 }
