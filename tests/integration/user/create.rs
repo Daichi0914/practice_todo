@@ -3,7 +3,7 @@ use crate::integration::test_helper::response::body_to_string;
 use crate::integration::test_helper::response::get_method::call_api_with_body;
 
 #[tokio::test]
-async fn ユーザーを作成する() {
+async fn ユーザー名を渡すとidとユーザー名が返ってくる() {
     // given
     let uri = format!("/api/v1/users");
     let body = format!(r#"{{ "username": "田中太郎" }}"#);
