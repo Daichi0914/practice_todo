@@ -2,13 +2,8 @@ use std::env;
 use std::net::SocketAddr;
 pub use crate::routes::routes::app;
 
-pub mod handlers {
-    pub mod user_handlers;
-}
-pub mod routes {
-    pub mod routes;
-    pub mod user_routes;
-}
+mod handlers;
+mod routes;
 
 pub async fn init_server() {
     let log_level = env::var("RUST_LOG").unwrap_or("info".to_string());
