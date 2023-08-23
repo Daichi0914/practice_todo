@@ -2,6 +2,18 @@ fn create_todo(todo: &str) -> &str {
     todo
 }
 
+#[derive()]
+enum TodoStatus {
+    Done,
+    InProgress,
+    Undone
+}
+
+struct Todo {
+    id: i32,
+    action: String,
+    status: TodoStatus,
+}
 
 #[cfg(test)]
 mod tests {
