@@ -4,6 +4,7 @@ pub use crate::routes::routes::app;
 
 mod handlers;
 mod routes;
+mod models;
 
 pub async fn init_server() {
     let log_level = env::var("RUST_LOG").unwrap_or("info".to_string());
