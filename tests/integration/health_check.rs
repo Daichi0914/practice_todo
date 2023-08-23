@@ -1,18 +1,16 @@
-mod success {
-    use axum::body::HttpBody;
-    use axum::http::StatusCode;
-    use crate::integration_testing::test_helper::response::get_method::call_api_without_body;
+use axum::body::HttpBody;
+use axum::http::StatusCode;
+use crate::integration::test_helper::response::get_method::call_api_without_body;
 
-    #[tokio::test]
-    async fn 応答が返ってくる() {
-        // given
-        let uri = "/api/v1/health_check";
+#[tokio::test]
+async fn 正常な応答が返ってくる() {
+    // given
+    let uri = "/api/v1/health_check";
 
-        // when
-        let mut response = call_api_without_body("GET", &uri).await;
+    // when
+    let mut response = call_api_without_body("GET", &uri).await;
 
-        // then
-        assert_eq!(response.status(), StatusCode::OK);
-        assert_eq!(response.data().await.unwrap().unwrap(), "Hello, world!")
-    }
+    // then
+    assert_eq!(response.status(), StatusCode::OK);
+    assert_eq!(response.data().await.unwrap().unwrap(), "Hello, world!")
 }

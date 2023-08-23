@@ -1,6 +1,6 @@
 use axum::http::StatusCode;
-use crate::integration_testing::test_helper::response::body_to_string;
-use crate::integration_testing::test_helper::response::get_method::call_api_with_body;
+use crate::integration::test_helper::response::body_to_string;
+use crate::integration::test_helper::response::get_method::call_api_with_body;
 
 #[tokio::test]
 async fn ユーザーを作成する() {

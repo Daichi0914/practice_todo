@@ -1,4 +1,4 @@
-pub mod integration_testing {
+pub mod integration {
     pub mod test_helper {
         pub mod response;
     }
