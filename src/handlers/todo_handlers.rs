@@ -32,8 +32,8 @@ impl Todo {
 mod tests {
     use super::*;
 
-    #[tokio::test]
-    async fn todoを返す() {
+    #[test]
+    fn todoを返す() {
         // given
         let todo = Todo::new(String::from("掃除をする"), TodoStatus::Undone);
 
