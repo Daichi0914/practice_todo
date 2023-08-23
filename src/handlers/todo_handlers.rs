@@ -1,3 +1,6 @@
+fn create_todo(todo: &str) -> &str {
+    todo
+}
 
 
 #[cfg(test)]
