@@ -37,3 +37,23 @@ pub trait TodoRepository {
 
 type TodoDates = HashMap<i32, Todo>;
 
+
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn todoを作成する() {
+        // given
+        let memory = TodoRepositoryForMemory::new();
+        let todo = Todo::new(String::from("掃除をする"));
+
+        // when
+        memory::create(todo);
+
+        // then
+        assert_eq!(memory.get(&1), todo);
+    }
+}
