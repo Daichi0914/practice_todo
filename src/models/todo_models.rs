@@ -1,11 +1,12 @@
 use std::collections::HashMap;
+use std::sync::{Arc, RwLock};
 use serde::Serialize;
 
 #[derive(PartialEq, Serialize, Debug, Clone)]
 enum TodoStatus {
-    Done,
+    Undone,
     InProgress,
-    Undone
+    Done
 }
 
 #[derive(PartialEq, Serialize, Debug, Clone)]
@@ -29,16 +30,29 @@ impl Todo {
     }
 }
 
-// TODO: メモリを実装する
-
 pub trait TodoRepository {
     fn create(&self, payload: CreateTodo) -> Todo;
 }
 
 type TodoDates = HashMap<i32, Todo>;
 
+pub struct TodoRepositoryForMemory {
+    store: Arc<RwLock<TodoDates>>
+}
 
+impl TodoRepositoryForMemory {
+    pub(crate) fn new() -> Self {
+        TodoRepositoryForMemory {
+            store: Arc::default()
+        }
+    }
+}
 
+impl TodoRepository for TodoRepositoryForMemory {
+    fn create(&self, _payload: CreateTodo) -> Todo {
+        todo!()
+    }
+}
 
 #[cfg(test)]
 mod tests {
@@ -48,12 +62,19 @@ mod tests {
     fn todoを作成する() {
         // given
         let memory = TodoRepositoryForMemory::new();
-        let todo = Todo::new(String::from("掃除をする"));
+        let payload = CreateTodo { action: String::from("掃除をする") };
 
         // when
-        memory::create(todo);
+        let create_todo = memory.create(payload);
 
         // then
-        assert_eq!(memory.get(&1), todo);
+        assert_eq!(
+            create_todo,
+            Todo {
+                id: 1,
+                action: String::from("掃除をする"),
+                status: TodoStatus::Undone,
+            }
+        );
     }
 }

@@ -1,4 +1,3 @@
-use serde::Serialize;
 use crate::models::todo_models::Todo;
 
 fn create_todo(todo: Todo) -> Todo {
