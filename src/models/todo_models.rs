@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use std::sync::{Arc, RwLock};
+use std::sync::{Arc, RwLock, RwLockWriteGuard};
 use serde::Serialize;
 
 #[derive(PartialEq, Serialize, Debug, Clone)]
@@ -11,7 +11,7 @@ enum TodoStatus {
 
 #[derive(PartialEq, Serialize, Debug, Clone)]
 pub struct Todo {
-    id: i32,
+    id: u32,
     action: String,
     status: TodoStatus,
 }
@@ -21,9 +21,9 @@ pub struct CreateTodo {
 }
 
 impl Todo {
-    pub(crate) fn new(action: String) -> Self {
+    pub(crate) fn new(id: u32, action: String) -> Self {
         Todo {
-            id: 1,
+            id,
             action,
             status: TodoStatus::Undone
         }
@@ -34,7 +34,7 @@ pub trait TodoRepository {
     fn create(&self, payload: CreateTodo) -> Todo;
 }
 
-type TodoDates = HashMap<i32, Todo>;
+type TodoDates = HashMap<u32, Todo>;
 
 pub struct TodoRepositoryForMemory {
     store: Arc<RwLock<TodoDates>>
@@ -49,8 +49,12 @@ impl TodoRepositoryForMemory {
 }
 
 impl TodoRepository for TodoRepositoryForMemory {
-    fn create(&self, _payload: CreateTodo) -> Todo {
-        todo!()
+    fn create(&self, payload: CreateTodo) -> Todo {
+        let mut store = self.store.write().unwrap();
+        let id = (store.len() + 1) as u32;
+        let todo = Todo::new(id, payload.action.clone());
+        store.insert(id, todo.clone());
+        todo
     }
 }
 
