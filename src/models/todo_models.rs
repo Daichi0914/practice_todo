@@ -46,11 +46,15 @@ impl TodoRepositoryForMemory {
             store: Arc::default()
         }
     }
+
+    fn write_store_ref(&self) -> RwLockWriteGuard<TodoDates> {
+        self.store.write().unwrap()
+    }
 }
 
 impl TodoRepository for TodoRepositoryForMemory {
     fn create(&self, payload: CreateTodo) -> Todo {
-        let mut store = self.store.write().unwrap();
+        let mut store = self.write_store_ref();
         let id = (store.len() + 1) as u32;
         let todo = Todo::new(id, payload.action.clone());
         store.insert(id, todo.clone());
@@ -72,6 +76,7 @@ mod tests {
         let create_todo = memory.create(payload);
 
         // then
+        // TODO: insertしたstoreの中身をreadできるようにしたらテスト変更する
         assert_eq!(
             create_todo,
             Todo {
