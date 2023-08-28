@@ -68,7 +68,7 @@ impl TodoRepository for TodoRepositoryForMemory {
 
     fn read(&self, id: u32) -> Option<Todo> {
         let store = self.read_store_ref();
-        store.get(&id).map(|todo| todo.clone())
+        store.get(&id).cloned()
     }
 }
 
@@ -86,15 +86,7 @@ mod tests {
         let create_todo = memory.create(payload);
 
         // then
-        // TODO: insertしたstoreの中身をreadできるようにしたらテスト変更する
-        assert_eq!(
-            create_todo,
-            Todo {
-                id: 1,
-                action: String::from("掃除をする"),
-                status: TodoStatus::Undone,
-            }
-        );
+        assert_eq!(create_todo, memory.read(create_todo.id).unwrap());
     }
 
     #[test]
