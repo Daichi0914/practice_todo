@@ -86,7 +86,14 @@ mod tests {
         let create_todo = memory.create(payload);
 
         // then
-        assert_eq!(create_todo, memory.read(create_todo.id).unwrap());
+        assert_eq!(
+            memory.read(create_todo.id).unwrap(),
+            Todo {
+                id: 1,
+                action: String::from("掃除をする"),
+                status: TodoStatus::Undone,
+            }
+        );
     }
 
     #[test]
