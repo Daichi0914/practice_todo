@@ -92,17 +92,17 @@ mod tests {
         // given
         let mut memory = TodoRepositoryForMemory::new();
         let payload = CreateTodo { action: String::from("勉強をする") };
-        memory.create(payload);
+        let create_todo = memory.create(payload);
 
         // when
-        let todos = memory.read();
+        let read_todo = memory.read(create_todo.id);
 
         // then
         assert_eq!(
-            todos.get(1),
+            read_todo,
             Todo {
                 id: 1,
-                action: String::from("掃除をする"),
+                action: String::from("勉強をする"),
                 status: TodoStatus::Undone,
             }
         )
