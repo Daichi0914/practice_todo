@@ -37,6 +37,7 @@ pub trait TodoRepository {
 
 type TodoDates = HashMap<u32, Todo>;
 
+#[derive(Debug, Clone)]
 pub struct TodoRepositoryForMemory {
     store: Arc<RwLock<TodoDates>>
 }
