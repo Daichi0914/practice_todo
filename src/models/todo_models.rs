@@ -17,7 +17,7 @@ pub struct Todo {
 }
 
 pub struct CreateTodo {
-    action: String,
+    pub(crate) action: String,
 }
 
 impl Todo {
