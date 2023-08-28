@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use std::sync::{Arc, RwLock, RwLockWriteGuard};
+use std::sync::{Arc, RwLock, RwLockReadGuard, RwLockWriteGuard};
 use serde::Serialize;
 
 #[derive(PartialEq, Serialize, Debug, Clone)]
@@ -32,6 +32,7 @@ impl Todo {
 
 pub trait TodoRepository {
     fn create(&self, payload: CreateTodo) -> Todo;
+    fn read(&self, id: u32) -> Option<Todo>;
 }
 
 type TodoDates = HashMap<u32, Todo>;
@@ -50,6 +51,10 @@ impl TodoRepositoryForMemory {
     fn write_store_ref(&self) -> RwLockWriteGuard<TodoDates> {
         self.store.write().unwrap()
     }
+
+    pub(crate) fn read_store_ref(&self) -> RwLockReadGuard<TodoDates> {
+        self.store.read().unwrap()
+    }
 }
 
 impl TodoRepository for TodoRepositoryForMemory {
@@ -59,6 +64,11 @@ impl TodoRepository for TodoRepositoryForMemory {
         let todo = Todo::new(id, payload.action.clone());
         store.insert(id, todo.clone());
         todo
+    }
+
+    fn read(&self, id: u32) -> Option<Todo> {
+        let store = self.read_store_ref();
+        store.get(&id).map(|todo| todo.clone())
     }
 }
 
@@ -90,12 +100,12 @@ mod tests {
     #[test]
     fn todoを取得する() {
         // given
-        let mut memory = TodoRepositoryForMemory::new();
+        let memory = TodoRepositoryForMemory::new();
         let payload = CreateTodo { action: String::from("勉強をする") };
         let create_todo = memory.create(payload);
 
         // when
-        let read_todo = memory.read(create_todo.id);
+        let read_todo = memory.read(create_todo.id).unwrap();
 
         // then
         assert_eq!(
