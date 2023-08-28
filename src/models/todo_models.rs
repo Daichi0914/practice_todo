@@ -86,4 +86,25 @@ mod tests {
             }
         );
     }
+
+    #[test]
+    fn todoを取得する() {
+        // given
+        let mut memory = TodoRepositoryForMemory::new();
+        let payload = CreateTodo { action: String::from("勉強をする") };
+        memory.create(payload);
+
+        // when
+        let todos = memory.read();
+
+        // then
+        assert_eq!(
+            todos.get(1),
+            Todo {
+                id: 1,
+                action: String::from("掃除をする"),
+                status: TodoStatus::Undone,
+            }
+        )
+    }
 }
