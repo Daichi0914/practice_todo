@@ -12,7 +12,7 @@ mod tests {
     use std::sync::Arc;
     use axum::Extension;
     use crate::handlers::todo_handlers::create_todo;
-    use crate::models::todo_models::{CreateTodo, Todo, TodoRepository, TodoRepositoryForMemory};
+    use crate::models::todo_models::{CreateTodo, Todo, TodoRepositoryForMemory};
 
     #[test]
     fn todoを作成した後そのtodoが返ってくる() {
