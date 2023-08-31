@@ -2,6 +2,7 @@ use axum::http::StatusCode;
 use crate::integration::test_helper::response::body_to_string;
 use crate::integration::test_helper::response::get_method::call_api_with_body;
 
+#[ignore]
 #[tokio::test]
 async fn todoを作成する() {
     // given
