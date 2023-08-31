@@ -28,6 +28,10 @@ impl Todo {
             status: TodoStatus::Undone
         }
     }
+
+    pub fn create_next_id(store: &RwLockWriteGuard<TodoDates>) -> u32 {
+        (store.len() + 1) as u32
+    }
 }
 
 pub trait TodoRepository {
@@ -61,7 +65,7 @@ impl TodoRepositoryForMemory {
 impl TodoRepository for TodoRepositoryForMemory {
     fn create(&self, payload: CreateTodo) -> Todo {
         let mut store = self.write_store_ref();
-        let id = (store.len() + 1) as u32;
+        let id = Todo::create_next_id(&store);
         let todo = Todo::new(id, payload.action.clone());
         store.insert(id, todo.clone());
         todo
