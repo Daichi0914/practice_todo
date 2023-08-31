@@ -57,7 +57,7 @@ impl TodoRepositoryForMemory {
         self.store.write().unwrap()
     }
 
-    pub(crate) fn read_store_ref(&self) -> RwLockReadGuard<TodoDates> {
+    fn read_store_ref(&self) -> RwLockReadGuard<TodoDates> {
         self.store.read().unwrap()
     }
 }
