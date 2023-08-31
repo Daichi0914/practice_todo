@@ -7,22 +7,22 @@ fn create_todo(payload: CreateTodo, memory: TodoRepositoryForMemory) -> Todo {
 
 #[cfg(test)]
 mod tests {
+    use std::sync::Arc;
+    use axum::Extension;
     use crate::handlers::todo_handlers::create_todo;
     use crate::models::todo_models::{CreateTodo, TodoRepository, TodoRepositoryForMemory};
 
     #[test]
     fn todoを作成した後そのtodoが返ってくる() {
         // given
-        let memory = TodoRepositoryForMemory::new();
+        let repository = TodoRepositoryForMemory::new();
+        let arc_repository = Arc::new(repository);
         let payload = CreateTodo { action: String::from("帰宅する") };
 
         // when
-        let todo = create_todo(payload, memory.clone());
+        let result = create_todo(payload, Extension(arc_repository));
 
         // then
-        assert_eq!(
-            todo,
-            memory.read(1).unwrap()
-        )
+        assert_eq!(result.get("action"), payload.action)
     }
 }
