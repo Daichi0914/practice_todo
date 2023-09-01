@@ -2,7 +2,7 @@ use std::sync::Arc;
 use axum::Extension;
 use crate::models::todo_models::{CreateTodo, Todo, TodoRepository, TodoRepositoryForMemory};
 
-fn create_todo(payload: CreateTodo, repository: Extension<Arc<TodoRepositoryForMemory>>) -> Todo {
+pub(crate) fn create_todo(payload: CreateTodo, repository: Extension<Arc<TodoRepositoryForMemory>>) -> Todo {
     let todo = repository.create(payload);
     todo
 }
